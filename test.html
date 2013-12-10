@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<title>Circle test</title>
+<style>
+body { 
+  background-color:black;
+}
+body#kasinaTime :not(#kasina) {
+  display:none;
+}
+svg {
+  position:absolute;
+  top:0;
+  right:0;
+  height:100%;
+  width:100%;
+  z-index:-1;
+}
+#kasina { 
+  margin:0 auto;
+  cursor: none; /* hides cursor when above kasina */
+}
+.color-option {
+  display:inline-block;
+  padding: 2px;
+  margin: 0 1px;
+  width: 80px;
+  border-radius: 3px;
+  text-decoration: none;
+}
+.color-option:hover {
+  background-color: white;
+}
+.color-option::before {
+  /*color: attr(data-color); not supported yet in modern browsers */
+  content: "● ";
+}
+</style>
+</head>
+
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg">
+<circle id="kasina" cx="50%" cy="50%" r="80" fill="red" />
+</svg>
+
+<div>
+<ul>
+  <li>
+  <a class="color-option" data-color="red" href="#">Red</a>
+  </li>
+  <li>
+  <a class="color-option" data-color="white" href="#">White</a>
+  </li>
+  <li>
+  <a class="color-option" data-color="brown" href="#">Brown</a>
+  </li>
+</ul>
+</div>
+
+<script type="text/javascript">
+var kasina = document.getElementById("kasina")
+
+//c.setAttribute("r", 200);
+var colorOptions = document.querySelectorAll(".color-option");
+for(var i=0; 0 < colorOptions.length; i++) {
+  colorOptions[i].addEventListener('click', function(event){
+    kasina.setAttribute('fill', event.target.getAttribute('data-color'));
+    event.stopPropagation();
+  }, false); 
+  colorOptions[i].setAttribute('style', 'color:'+colorOptions[i].getAttribute('data-color'));
+}
+
+kasina.addEventListener('mouseover', function(event){
+  document.getElementsByTagName('div')[0].setAttribute('style', 'display:none');
+}, false);
+
+kasina.addEventListener('mouseout', function(event){
+  document.getElementsByTagName('div')[0].setAttribute('style', '');
+}, false);
+</script>
+</body>
+</html>
