@@ -2,13 +2,12 @@
 <html>
 <head>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-<title>Circle test</title>
+<title>Kasina Beta</title>
 <style>
 body { 
+  font-family: Verdana, Geneva, sans-serif;
   background-color:black;
-}
-body#kasinaTime :not(#kasina) {
-  display:none;
+  color:purple
 }
 svg {
   position:absolute;
@@ -16,26 +15,32 @@ svg {
   right:0;
   height:100%;
   width:100%;
-  z-index:-1;
+  z-index:1;
 }
 #kasina { 
-  margin:0 auto;
   cursor: none; /* hides cursor when above kasina */
+  position:relative;
 }
-.color-option {
+#options ul {
+  list-style-type: none;
+}
+.color-option, .background-color-option {
   display:inline-block;
   padding: 2px;
   margin: 0 1px;
-  width: 80px;
+  width: 150px;
   border-radius: 3px;
   text-decoration: none;
 }
-.color-option:hover {
-  background-color: white;
+.color-option:hover, .background-color-option:hover {
+  background-color: #ddd;
 }
-.color-option::before {
-  /*color: attr(data-color); not supported yet in modern browsers */
-  content: "● ";
+#countdown {
+  font-size: 2em;
+  position: fixed;
+  padding: 5px 10px;
+  top:0;
+  right:0;
 }
 </style>
 </head>
@@ -43,10 +48,18 @@ svg {
 <body>
 
 <svg xmlns="http://www.w3.org/2000/svg">
-<circle id="kasina" cx="50%" cy="50%" r="80" fill="red" />
+  <circle id="kasina" cx="50%" cy="50%" r="80" fill="red" />
+  <defs>
+    <radialGradient id="grad" r="40%"> <!-- to use it, use the following attribute fill="url(#grad)" -->
+      <stop offset="0%" style="stop-color:rgb(0,0,0)" />
+      <stop offset="100%" style="stop-color:rgb(0,0,255)" />
+    </radialGradient>
+  </defs>
+  Sorry, your browser does not support inline SVG.
 </svg>
 
-<div>
+<div id="options"> 
+<h3>Circle Color</h3>
 <ul>
   <li>
   <a class="color-option" data-color="red" href="#">Red</a>
@@ -57,29 +70,87 @@ svg {
   <li>
   <a class="color-option" data-color="brown" href="#">Brown</a>
   </li>
-</ul>
+  <li>
+  <a class="color-option" data-color="url(#grad)" href="#">Gradient Test</a>
+  </li>
+</ul> 
+<h3>Background Color</h3>
+<ul>
+  <li>
+  <a class="background-color-option" data-color="black" href="#">Black</a>
+  </li>
+  <li>
+  <a class="background-color-option" data-color="white" href="#">White</a>
+  </li>
+</ul> 
+</div>
+
+<div id="countdown">
+  <span id="minutes">40</span>:<span id="seconds">00</span>
 </div>
 
 <script type="text/javascript">
 var kasina = document.getElementById("kasina")
+var options = document.getElementById("options");
+var countdown = document.getElementById("countdown");
 
-//c.setAttribute("r", 200);
+kasina.addEventListener('mouseover', function(event){
+  options.setAttribute('style', 'display:none');
+  countdown.setAttribute('style', 'display:none');
+}, false);
+kasina.addEventListener('mouseout', function(event){
+  options.setAttribute('style', '');
+  countdown.setAttribute('style', '');
+}, false);
+
 var colorOptions = document.querySelectorAll(".color-option");
-for(var i=0; 0 < colorOptions.length; i++) {
-  colorOptions[i].addEventListener('click', function(event){
+for(var i=0; i < colorOptions.length; i++) {
+  colorOptions.item(i).addEventListener('click', function(event){
     kasina.setAttribute('fill', event.target.getAttribute('data-color'));
     event.stopPropagation();
   }, false); 
-  colorOptions[i].setAttribute('style', 'color:'+colorOptions[i].getAttribute('data-color'));
+  colorOptions.item(i).innerHTML = "<span>&nbsp;● </span>" + colorOptions.item(i).innerHTML;
+  colorOptions.item(i).firstChild.setAttribute('style', 'color:'+colorOptions[i].getAttribute('data-color'));
 }
 
-kasina.addEventListener('mouseover', function(event){
-  document.getElementsByTagName('div')[0].setAttribute('style', 'display:none');
-}, false);
+var backgroundColorOptions = document.querySelectorAll(".background-color-option");
+for(var i=0; i < backgroundColorOptions.length; i++) {
+  backgroundColorOptions.item(i).addEventListener('click', function(event){
+    document.body.style.backgroundColor = event.target.getAttribute('data-color');
+    event.stopPropagation();
+  }, false); 
+  backgroundColorOptions.item(i).innerHTML = "<span>&nbsp;● </span>" + backgroundColorOptions.item(i).innerHTML;
+  backgroundColorOptions.item(i).firstChild.setAttribute('style', 'background-color:'+backgroundColorOptions[i].getAttribute('data-color'));
+}
 
-kasina.addEventListener('mouseout', function(event){
-  document.getElementsByTagName('div')[0].setAttribute('style', '');
-}, false);
+(function(){
+// countdown setup
+var sec = document.getElementById('seconds');
+var min = document.getElementById('minutes');
+function update_countdown() {
+  var seconds = sec.innerHTML;
+  if(seconds == "00") {
+    seconds = "59";
+    var minutes = min.innerHTML;
+    if(minutes == "00") {
+      alert("Time is over.");
+      return;
+    }
+    minutes--;
+    if(minutes < 10) 
+      minutes = "0" + minutes;
+    min.innerHTML = minutes;
+  } else {
+    seconds--;
+    if(seconds < 10)
+      seconds = "0" + seconds;
+  }
+  sec.innerHTML = seconds;
+  setTimeout(update_countdown, 1000);
+}
+update_countdown();
+})()
+
 </script>
 </body>
 </html>
