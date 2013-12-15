@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-<title>Kasina Beta SIMPLE</title>
+<title>Kasina Beta SIMPLE ☸</title>
 <style>
 body { 
   background-color:black;
@@ -55,12 +55,12 @@ var options = document.getElementById("options");
 var co = document.querySelectorAll(".color-option");
 
 for(var i=0; i < co.length; i++) {
+  co[i].setAttribute("style", "color:"+co[i].getAttribute("data-color"));
   co[i].addEventListener("click", function(event){
     kasina.setAttribute("fill", event.target.getAttribute("data-color"));
     svg.style.display = "block";
     options.style.display = "none";
   }, false); 
-  co[i].setAttribute("style", "color:"+co[i].getAttribute("data-color"));
 }
 </script>
 </body>
