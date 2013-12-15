@@ -54,7 +54,7 @@ svg {
 <svg class="absolute-center" xmlns="http://www.w3.org/2000/svg">
   <circle id="kasina" cx="50%" cy="50%" r="80" fill="#0000CD" />
   <defs>
-    <radialGradient id="grad" r="40%"> <!-- to use it, use the following attribute fill="url(#grad)" -->
+    <radialGradient id="grad" r="40%">
       <stop offset="0%" style="stop-color:rgb(0,0,0)" />
       <stop offset="100%" style="stop-color:rgb(0,0,255)" />
     </radialGradient>
@@ -133,7 +133,7 @@ kasina.addEventListener('click', function(event){
   }
 }, false);
 
-var colorOptions = document.querySelectorAll(".color-option");
+var colorOptions = document.getElementsByClassName("color-option");
 for(var i=0; i < colorOptions.length; i++) {
   colorOptions.item(i).addEventListener('click', function(event){
     kasina.setAttribute('fill', event.target.getAttribute('data-color'));
@@ -143,7 +143,7 @@ for(var i=0; i < colorOptions.length; i++) {
   colorOptions.item(i).firstChild.setAttribute('style', 'color:'+colorOptions[i].getAttribute('data-color'));
 }
 
-var backgroundColorOptions = document.querySelectorAll(".background-color-option");
+var backgroundColorOptions = document.getElementsByClassName("background-color-option");
 for(var i=0; i < backgroundColorOptions.length; i++) {
   backgroundColorOptions.item(i).addEventListener('click', function(event){
     document.body.style.backgroundColor = event.target.getAttribute('data-color');
@@ -176,7 +176,7 @@ function update_countdown() {
     seconds = "59";
     var minutes = min.innerHTML;
     if(minutes == 0) {
-      countdownInterval.clearInterval();
+      clearInterval(countdownInterval);
       alert("Time is over.");
       return;
     }
@@ -191,8 +191,6 @@ function update_countdown() {
   }
   sec.innerHTML = seconds;
 }
-//var secondsInput = document.getElementById('seconds-input');
-//var minutesInput = document.getElementById('minutes-input');
 })()
 
 </script>
