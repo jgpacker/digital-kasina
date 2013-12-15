@@ -2,14 +2,14 @@
 <html>
 <head>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-<title>Kasina Beta</title>
+<title>Kasina Beta ☸</title>
 <style>
 body { 
   font-family: Verdana, Geneva, sans-serif;
   background-color:black;
-  color:purple
+  color:gray;
 }
-svg {
+.absolute-center {
   position:absolute;
   top: 0; left: 0; bottom: 0; right: 0;
   margin:auto;
@@ -17,9 +17,11 @@ svg {
   z-index:0;
   overflow: visible;
 }
+svg {
+  width: 160px; /* 2 times svg>circle[r] */
+}
 #kasina { 
   cursor: none; /* hides cursor when above kasina */
-  position:relative;
 }
 #options ul {
   list-style-type: none;
@@ -36,18 +38,20 @@ svg {
   background-color: #ddd;
 }
 #countdown {
-  font-size: 2em;
   position: fixed;
   padding: 5px 10px;
   top:0;
   right:0;
+}
+#countdown * {
+  font-size: 2em;
 }
 </style>
 </head>
 
 <body>
 
-<svg xmlns="http://www.w3.org/2000/svg">
+<svg class="absolute-center" xmlns="http://www.w3.org/2000/svg">
   <circle id="kasina" cx="50%" cy="50%" r="80" fill="red" />
   <defs>
     <radialGradient id="grad" r="40%"> <!-- to use it, use the following attribute fill="url(#grad)" -->
@@ -86,7 +90,17 @@ svg {
 </div>
 
 <div id="countdown">
-  <span id="minutes">40</span>:<span id="seconds">00</span>
+  <input type="button" value="▸" />
+  <span id="minutes" contentEditable="true">20</span>:<span id="seconds" contentEditable="true">00</span>
+<!--  <select>
+    <option value="15">15</option>
+    <option value="30">30</option>
+    <option value="40">40</option>
+  </select>
+-->
+<!--  <input id="minutes-input" type="number" value="15" min="0" size="2" />:<input type="number" id="seconds-input" value="00" min="0" step="5" />
+-->
+ 
 </div>
 
 <script type="text/javascript">
@@ -101,6 +115,16 @@ kasina.addEventListener('mouseover', function(event){
 kasina.addEventListener('mouseout', function(event){
   options.setAttribute('style', '');
   countdown.setAttribute('style', '');
+}, false);
+kasina.addEventListener('click', function(event){
+  if(options.getAttribute('style') == '') {
+    options.setAttribute('style', 'display:none');
+    countdown.setAttribute('style', 'display:none');
+    
+  } else {
+    options.setAttribute('style', '');
+    countdown.setAttribute('style', '');
+  }
 }, false);
 
 var colorOptions = document.querySelectorAll(".color-option");
@@ -123,16 +147,30 @@ for(var i=0; i < backgroundColorOptions.length; i++) {
   backgroundColorOptions.item(i).firstChild.setAttribute('style', 'background-color:'+backgroundColorOptions[i].getAttribute('data-color'));
 }
 
-(function(){
 // countdown setup
+(function(){
+var countdownButton = document.getElementsByTagName('input')[0];
 var sec = document.getElementById('seconds');
 var min = document.getElementById('minutes');
+var countdownInterval;
+
+countdownButton.addEventListener('click', function() {
+  if(countdownButton.getAttribute('value') == 'װ') {
+    countdownButton.setAttribute('value', '▸'); /*play icon*/
+    clearInterval(countdownInterval);
+  } else {
+    countdownButton.setAttribute('value', 'װ'); /*pause icon*/
+    countdownInterval = setInterval(update_countdown, 1000);
+  }
+}, false);
+
 function update_countdown() {
   var seconds = sec.innerHTML;
   if(seconds == "00") {
     seconds = "59";
     var minutes = min.innerHTML;
     if(minutes == "00") {
+      countdownInterval.clearInterval();
       alert("Time is over.");
       return;
     }
@@ -146,9 +184,9 @@ function update_countdown() {
       seconds = "0" + seconds;
   }
   sec.innerHTML = seconds;
-  setTimeout(update_countdown, 1000);
 }
-update_countdown();
+//var secondsInput = document.getElementById('seconds-input');
+//var minutesInput = document.getElementById('minutes-input');
 })()
 
 </script>
