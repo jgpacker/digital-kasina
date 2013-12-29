@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<title>Kasina Beta ☸</title>
+<style>
+/* for now the css code will remain embedded here, so users do not to clean their browser's cache when the css file changes. The same counts for the js code */
+body { 
+  font-family: Verdana, Geneva, sans-serif;
+  background-color:black;
+  color:gray;
+}
+.absolute-center {
+  position:absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  margin:auto;
+  height:100%;
+  z-index:0;
+  overflow: visible;
+}
+svg {
+  width: 160px; /* 2 times svg>circle[r] */
+}
+#kasina { 
+  cursor: none; /* hides cursor when above kasina */
+}
+#options ul {
+  list-style-type: none;
+}
+.color-option, .background-color-option {
+  display:inline-block;
+  padding: 2px;
+  margin: 0 1px;
+  width: 150px; /* arbitrary length */
+  border-radius: 3px;
+  text-decoration: none;
+}
+.color-option:hover, .background-color-option:hover {
+  background-color: #ddd;
+}
+#countdown {
+  position: fixed;
+  padding: 5px 10px;
+  top:0;
+  right:0;
+}
+#countdown * {
+  font-size: 2em;
+}
+</style>
+</head>
+
+<body>
+
+<svg class="absolute-center" xmlns="http://www.w3.org/2000/svg">
+  <circle id="kasina" cx="50%" cy="50%" r="80" fill="#0000CD" />
+  <defs>
+    <radialGradient id="grad" r="40%">
+      <stop offset="0%" style="stop-color:rgb(0,0,0)" />
+      <stop offset="100%" style="stop-color:rgb(0,0,255)" />
+    </radialGradient>
+  </defs>
+  Sorry, your browser does not support inline SVG.
+</svg>
+
+<div id="options"> 
+<h3>Circle Color</h3>
+<ul>
+  <li>
+  <a class="color-option" data-color="#0000CD" href="#">Medium Blue</a>
+  </li>
+  <li>
+  <a class="color-option" data-color="#FFE303" href="#">Medium Yellow</a>
+  </li>
+  <li>
+  <a class="color-option" data-color="red" href="#">Red</a>
+  </li>
+  <li>
+  <a class="color-option" data-color="white" href="#">White</a>
+  </li>
+  <li>
+  <a class="color-option" data-color="brown" href="#">Brown</a>
+  </li>
+  <li>
+  <a class="color-option" data-color="url(#grad)" href="#">Gradient Test</a>
+  </li>
+</ul> 
+<h3>Background Color</h3>
+<ul>
+  <li>
+  <a class="background-color-option" data-color="black" href="#">Black</a>
+  </li>
+  <li>
+  <a class="background-color-option" data-color="white" href="#">White</a>
+  </li>
+</ul> 
+</div>
+
+<div id="countdown">
+  <input type="button" value="▸" />
+  <span id="minutes" contentEditable="true">20</span>:<span id="seconds" contentEditable="true">00</span>
+<!--  <select>
+    <option value="15">15</option>
+    <option value="30">30</option>
+    <option value="40">40</option>
+  </select>
+-->
+<!--  <input id="minutes-input" type="number" value="15" min="0" size="2" />:<input type="number" id="seconds-input" value="00" min="0" step="5" />
+-->
+ 
+</div>
+
+<script type="text/javascript">
+/*jslint browser:true, white:true, devel:true, passfail:false, plusplus:true, vars:true */
+(function(){
+"use strict";
+var kasina = document.getElementById("kasina"),
+  options = document.getElementById("options"),
+  countdown = document.getElementById("countdown"), i;
+
+//kasina setup
+kasina.addEventListener('mouseover', function(){
+  options.setAttribute('style', 'display:none');
+  countdown.setAttribute('style', 'display:none');
+}, false);
+kasina.addEventListener('mouseout', function(){
+  options.setAttribute('style', '');
+  countdown.setAttribute('style', '');
+}, false);
+kasina.addEventListener('click', function(){
+  if(options.getAttribute('style') === '') {
+    options.setAttribute('style', 'display:none');
+    countdown.setAttribute('style', 'display:none');
+    
+  } else {
+    options.setAttribute('style', '');
+    countdown.setAttribute('style', '');
+  }
+}, false);
+
+//color options setup
+function setKasinaColorOption(event) {
+  kasina.setAttribute('fill', event.target.getAttribute('data-color'));
+  event.stopPropagation();
+}
+
+var colorOptions = document.getElementsByClassName("color-option");
+for(i=0; i < colorOptions.length; i++) {
+  colorOptions[i].addEventListener('click', setKasinaColorOption, false); 
+  colorOptions[i].innerHTML = "<span>&nbsp;● </span>" + colorOptions[i].innerHTML;
+  colorOptions[i].firstChild.setAttribute('style', 'color:'+colorOptions[i].getAttribute('data-color'));
+}
+
+//backgroud color options setup
+function setKasinaBackgroundColorOption(event) {
+  document.body.style.backgroundColor = event.target.getAttribute('data-color');
+  event.stopPropagation();
+}
+var backgroundColorOptions = document.getElementsByClassName("background-color-option");
+for(i=0; i < backgroundColorOptions.length; i++) {
+  backgroundColorOptions[i].addEventListener('click', setKasinaBackgroundColorOption, false); 
+  backgroundColorOptions[i].innerHTML = "<span>&nbsp;● </span>" + backgroundColorOptions[i].innerHTML;
+  backgroundColorOptions[i].firstChild.setAttribute('style', 'background-color:'+backgroundColorOptions[i].getAttribute('data-color'));
+}
+
+// countdown setup
+var countdownButton = document.getElementsByTagName('input')[0],
+  sec = document.getElementById('seconds'),
+  min = document.getElementById('minutes'),
+  countdownInterval;
+
+function update_countdown() {
+  var seconds = sec.innerHTML;
+  if(seconds <= 0) {
+    seconds = "59";
+    var minutes = min.innerHTML;
+    if(minutes <= 0) {
+      clearInterval(countdownInterval);
+      alert("Time is over.");
+      return;
+    }
+    minutes--;
+    if(minutes < 10) {
+      minutes = "0" + minutes;
+    }
+    min.innerHTML = minutes;
+  } else {
+    seconds--;
+    if(seconds < 10) {
+      seconds = "0" + seconds;
+    }
+  }
+  sec.innerHTML = seconds;
+}
+
+countdownButton.addEventListener('click', function() {
+  if(countdownButton.getAttribute('value') === 'װ') {
+    countdownButton.setAttribute('value', '▸'); /*play icon*/
+    clearInterval(countdownInterval);
+  } else {
+    countdownButton.setAttribute('value', 'װ'); /*pause icon*/
+    update_countdown(); /*first change so user can know it works*/
+    countdownInterval = setInterval(update_countdown, 1000);
+  }
+}, false);
+}());
+</script>
+</body>
+</html>
