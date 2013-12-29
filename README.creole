@@ -1,10 +1,10 @@
 = Digital Kasina
 
-For basic instructions, see [[this PDF document|https://home.comcast.net/~turning.point.meditation/kasina/kasina.pdf]]. For advanced instructions, consult the [[Visuddhimagga|http://www.accesstoinsight.org/lib/authors/nanamoli/PathofPurification2011.pdf]].
+For basic instructions, see [[https://home.comcast.net/~turning.point.meditation/kasina/kasina.pdf|this PDF document]]. For advanced instructions, consult the [[http://www.accesstoinsight.org/lib/authors/nanamoli/PathofPurification2011.pdf|Visuddhimagga]].
 
 Currently this project is still in a **Beta** phase, and therefore it's considered experimental.
 
-As an alternative for this repository, see [[this YouTube playlist|http://www.youtube.com/playlist?list=PL321B92FC1DA91E6E]], which contains effects not supported by this project.
+As an alternative for this repository, see [[http://www.youtube.com/playlist?list=PL321B92FC1DA91E6E|this YouTube playlist]], which contains effects not supported by this project.
 
 
 == Notes for developers
