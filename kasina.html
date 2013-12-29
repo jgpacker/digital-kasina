@@ -111,20 +111,24 @@ svg {
 </div>
 
 <script type="text/javascript">
-var kasina = document.getElementById("kasina")
-var options = document.getElementById("options");
-var countdown = document.getElementById("countdown");
+/*jslint browser:true, white:true, devel:true, passfail:false, plusplus:true, vars:true */
+(function(){
+"use strict";
+var kasina = document.getElementById("kasina"),
+  options = document.getElementById("options"),
+  countdown = document.getElementById("countdown"), i;
 
-kasina.addEventListener('mouseover', function(event){
+//kasina setup
+kasina.addEventListener('mouseover', function(){
   options.setAttribute('style', 'display:none');
   countdown.setAttribute('style', 'display:none');
 }, false);
-kasina.addEventListener('mouseout', function(event){
+kasina.addEventListener('mouseout', function(){
   options.setAttribute('style', '');
   countdown.setAttribute('style', '');
 }, false);
-kasina.addEventListener('click', function(event){
-  if(options.getAttribute('style') == '') {
+kasina.addEventListener('click', function(){
+  if(options.getAttribute('style') === '') {
     options.setAttribute('style', 'display:none');
     countdown.setAttribute('style', 'display:none');
     
@@ -134,43 +138,36 @@ kasina.addEventListener('click', function(event){
   }
 }, false);
 
-var colorOptions = document.getElementsByClassName("color-option");
-for(var i=0; i < colorOptions.length; i++) {
-  colorOptions.item(i).addEventListener('click', function(event){
-    kasina.setAttribute('fill', event.target.getAttribute('data-color'));
-    event.stopPropagation();
-  }, false); 
-  colorOptions.item(i).innerHTML = "<span>&nbsp;● </span>" + colorOptions.item(i).innerHTML;
-  colorOptions.item(i).firstChild.setAttribute('style', 'color:'+colorOptions[i].getAttribute('data-color'));
+//color options setup
+function setKasinaColorOption(event) {
+  kasina.setAttribute('fill', event.target.getAttribute('data-color'));
+  event.stopPropagation();
 }
 
+var colorOptions = document.getElementsByClassName("color-option");
+for(i=0; i < colorOptions.length; i++) {
+  colorOptions[i].addEventListener('click', setKasinaColorOption, false); 
+  colorOptions[i].innerHTML = "<span>&nbsp;● </span>" + colorOptions[i].innerHTML;
+  colorOptions[i].firstChild.setAttribute('style', 'color:'+colorOptions[i].getAttribute('data-color'));
+}
+
+//backgroud color options setup
+function setKasinaBackgroundColorOption(event) {
+  document.body.style.backgroundColor = event.target.getAttribute('data-color');
+  event.stopPropagation();
+}
 var backgroundColorOptions = document.getElementsByClassName("background-color-option");
-for(var i=0; i < backgroundColorOptions.length; i++) {
-  backgroundColorOptions.item(i).addEventListener('click', function(event){
-    document.body.style.backgroundColor = event.target.getAttribute('data-color');
-    event.stopPropagation();
-  }, false); 
-  backgroundColorOptions.item(i).innerHTML = "<span>&nbsp;● </span>" + backgroundColorOptions.item(i).innerHTML;
-  backgroundColorOptions.item(i).firstChild.setAttribute('style', 'background-color:'+backgroundColorOptions[i].getAttribute('data-color'));
+for(i=0; i < backgroundColorOptions.length; i++) {
+  backgroundColorOptions[i].addEventListener('click', setKasinaBackgroundColorOption, false); 
+  backgroundColorOptions[i].innerHTML = "<span>&nbsp;● </span>" + backgroundColorOptions[i].innerHTML;
+  backgroundColorOptions[i].firstChild.setAttribute('style', 'background-color:'+backgroundColorOptions[i].getAttribute('data-color'));
 }
 
 // countdown setup
-(function(){
-var countdownButton = document.getElementsByTagName('input')[0];
-var sec = document.getElementById('seconds');
-var min = document.getElementById('minutes');
-var countdownInterval;
-
-countdownButton.addEventListener('click', function() {
-  if(countdownButton.getAttribute('value') == 'װ') {
-    countdownButton.setAttribute('value', '▸'); /*play icon*/
-    clearInterval(countdownInterval);
-  } else {
-    countdownButton.setAttribute('value', 'װ'); /*pause icon*/
-    update_countdown(); /*first change so user can know it works*/
-    countdownInterval = setInterval(update_countdown, 1000);
-  }
-}, false);
+var countdownButton = document.getElementsByTagName('input')[0],
+  sec = document.getElementById('seconds'),
+  min = document.getElementById('minutes'),
+  countdownInterval;
 
 function update_countdown() {
   var seconds = sec.innerHTML;
@@ -183,18 +180,30 @@ function update_countdown() {
       return;
     }
     minutes--;
-    if(minutes < 10) 
+    if(minutes < 10) {
       minutes = "0" + minutes;
+    }
     min.innerHTML = minutes;
   } else {
     seconds--;
-    if(seconds < 10)
+    if(seconds < 10) {
       seconds = "0" + seconds;
+    }
   }
   sec.innerHTML = seconds;
 }
-})()
 
+countdownButton.addEventListener('click', function() {
+  if(countdownButton.getAttribute('value') === 'װ') {
+    countdownButton.setAttribute('value', '▸'); /*play icon*/
+    clearInterval(countdownInterval);
+  } else {
+    countdownButton.setAttribute('value', 'װ'); /*pause icon*/
+    update_countdown(); /*first change so user can know it works*/
+    countdownInterval = setInterval(update_countdown, 1000);
+  }
+}, false);
+}());
 </script>
 </body>
 </html>
