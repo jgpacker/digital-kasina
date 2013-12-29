@@ -172,10 +172,10 @@ countdownButton.addEventListener('click', function() {
 
 function update_countdown() {
   var seconds = sec.innerHTML;
-  if(seconds == 0) {
+  if(seconds <= 0) {
     seconds = "59";
     var minutes = min.innerHTML;
-    if(minutes == 0) {
+    if(minutes <= 0) {
       clearInterval(countdownInterval);
       alert("Time is over.");
       return;
