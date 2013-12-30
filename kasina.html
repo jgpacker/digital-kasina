@@ -84,6 +84,9 @@ svg {
   <li>
   <a class="color-option" data-color="url(#grad)" href="#">Gradient Test</a>
   </li>
+  <li>
+  <input class="color-option" type="color" placeholder="Custom Hex Color" />
+  </li>
 </ul> 
 <h3>Background Color</h3>
 <ul>
@@ -92,6 +95,9 @@ svg {
   </li>
   <li>
   <a class="background-color-option" data-color="white" href="#">White</a>
+  </li>
+  <li>
+  <input class="background-color-option" type="color" placeholder="Custom Hex Color" />
   </li>
 </ul> 
 </div>
@@ -114,11 +120,11 @@ svg {
 /*jslint browser:true, white:true, devel:true, passfail:false, plusplus:true, vars:true */
 (function(){
 "use strict";
-var kasina = document.getElementById("kasina"),
-  options = document.getElementById("options"),
-  countdown = document.getElementById("countdown"), i;
 
 //kasina setup
+var kasina = document.querySelector("#kasina"),
+  options = document.querySelector("#options"),
+  countdown = document.querySelector("#countdown"), i;
 kasina.addEventListener('mouseover', function(){
   options.setAttribute('style', 'display:none');
   countdown.setAttribute('style', 'display:none');
@@ -141,32 +147,41 @@ kasina.addEventListener('click', function(){
 //color options setup
 function setKasinaColorOption(event) {
   kasina.setAttribute('fill', event.target.getAttribute('data-color'));
-  event.stopPropagation();
+}
+function setKasinaCustomColorOption(event) {
+  kasina.setAttribute('fill', event.target.value);
 }
 
-var colorOptions = document.getElementsByClassName("color-option");
-for(i=0; i < colorOptions.length; i++) {
+var colorOptions = document.querySelectorAll(".color-option");
+for(i=0; i < colorOptions.length-1; i++) {
   colorOptions[i].addEventListener('click', setKasinaColorOption, false); 
   colorOptions[i].innerHTML = "<span>&nbsp;● </span>" + colorOptions[i].innerHTML;
   colorOptions[i].firstChild.setAttribute('style', 'color:'+colorOptions[i].getAttribute('data-color'));
 }
+colorOptions[i].addEventListener('input', setKasinaCustomColorOption, false); //event for custom color input
+colorOptions[i].addEventListener('click', setKasinaCustomColorOption, false);
 
 //backgroud color options setup
 function setKasinaBackgroundColorOption(event) {
   document.body.style.backgroundColor = event.target.getAttribute('data-color');
-  event.stopPropagation();
 }
-var backgroundColorOptions = document.getElementsByClassName("background-color-option");
-for(i=0; i < backgroundColorOptions.length; i++) {
+function setKasinaCustomBackgroundColorOption(event) { 
+  document.body.style.backgroundColor = event.target.value;
+}
+var backgroundColorOptions = document.querySelectorAll(".background-color-option");
+for(i=0; i < backgroundColorOptions.length-1; i++) {
   backgroundColorOptions[i].addEventListener('click', setKasinaBackgroundColorOption, false); 
   backgroundColorOptions[i].innerHTML = "<span>&nbsp;● </span>" + backgroundColorOptions[i].innerHTML;
   backgroundColorOptions[i].firstChild.setAttribute('style', 'background-color:'+backgroundColorOptions[i].getAttribute('data-color'));
 }
+backgroundColorOptions[i].addEventListener('input', setKasinaCustomBackgroundColorOption, false); //event for custom color input
+backgroundColorOptions[i].addEventListener('click', setKasinaCustomBackgroundColorOption, false);
+  
 
 // countdown setup
-var countdownButton = document.getElementsByTagName('input')[0],
-  sec = document.getElementById('seconds'),
-  min = document.getElementById('minutes'),
+var countdownButton = countdown.querySelector('input[type=button]'),
+  sec = countdown.querySelector('#seconds'),
+  min = countdown.querySelector('#minutes'),
   countdownInterval;
 
 function update_countdown() {
