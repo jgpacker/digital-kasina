@@ -12,7 +12,7 @@ body {
   color:gray;
 }
 .absolute-center {
-  position:absolute;
+  position:fixed;
   top: 0; left: 0; bottom: 0; right: 0;
   margin:auto;
   height:100%;
@@ -86,7 +86,7 @@ svg {
   <a class="color-option" data-color="url(#grad)" href="#">Gradient Test</a>
   </li>
   <li>
-  <input class="color-option" type="color" placeholder="Custom Hex Color" />
+  <input class="color-option" type="color" placeholder="Custom Hex Color" value="#A2A2A2" />
   </li>
 </ul> 
 <h3>Background Color</h3>
@@ -98,7 +98,7 @@ svg {
   <a class="background-color-option" data-color="white" href="#">White</a>
   </li>
   <li>
-  <input class="background-color-option" type="color" placeholder="Custom Hex Color" />
+  <input class="background-color-option" type="color" placeholder="Custom Hex Color" value="#6E6E6E" />
   </li>
 </ul> 
 </div>
