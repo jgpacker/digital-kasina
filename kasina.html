@@ -123,10 +123,35 @@ svg {
 (function(){
 "use strict";
 
-//kasina setup
 var kasina = document.querySelector("#kasina"),
   options = document.querySelector("#options"),
-  countdown = document.querySelector("#countdown"), i;
+  countdown = document.querySelector("#countdown"),
+  svg = document.querySelector('svg'), i;
+
+/*
+//experimental feature setup http://caniuse.com/fullscreen
+if(!svg.requestFullscreen) { 
+  if(svg.mozRequestFullScreen) {
+    svg.requestFullscreen = svg.mozRequestFullScreen;
+  } else if(svg.webkitRequestFullscreen) {
+    svg.requestFullscreen = svg.webkitRequestFullscreen;
+  } else if(svg.msRequestFullscreen) {
+    svg.requestFullscreen = svg.msRequestFullscreen;
+  }
+}
+if(!svg.exitFullscreen) {
+  if (svg.msExitFullscreen) {
+    svg.exitFullscreen = svg.msExitFullscreen();
+  } else if (svg.mozCancelFullScreen) {
+    svg.exitFullscreen = svg.mozCancelFullScreen();
+  } else if (svg.webkitExitFullscreen) {
+    svg.exitFullscreen = svg.webkitExitFullscreen();
+  }
+}
+//it's too early after all
+*/
+
+//kasina setup
 kasina.addEventListener('mouseover', function(){
   options.setAttribute('style', 'display:none');
   countdown.setAttribute('style', 'display:none');
@@ -139,10 +164,11 @@ kasina.addEventListener('click', function(){
   if(options.getAttribute('style') === '') {
     options.setAttribute('style', 'display:none');
     countdown.setAttribute('style', 'display:none');
-    
+    //svg.requestFullscreen();
   } else {
     options.setAttribute('style', '');
     countdown.setAttribute('style', '');
+    //svg.exitFullscreen();
   }
 }, false);
 
