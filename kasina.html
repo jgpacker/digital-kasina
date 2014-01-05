@@ -69,7 +69,7 @@ svg {
 <h3>Circle Color</h3>
 <ul>
   <li>
-  <a class="color-option" data-color="#000CD" href="#">Blue(Nila)</a>
+  <a class="color-option" data-color="#0000CD" href="#">Blue(Nila)</a>
   </li>
   <li>
   <a class="color-option" data-color="brown" href="#">Earth Brown(Pathavi)</a>
@@ -176,38 +176,53 @@ kasina.addEventListener('click', function(){
 }, false);
 
 //color options setup
-function setKasinaColorOption(event) {
-  kasina.setAttribute('fill', event.target.getAttribute('data-color'));
+function setKasinaColor(color) {
+  kasina.setAttribute('fill', color);
+  localStorage["color"] = color
 }
-function setKasinaCustomColorOption(event) {
-  kasina.setAttribute('fill', event.target.value);
-}
-
 var colorOptions = document.querySelectorAll(".color-option");
 for(i=0; i < colorOptions.length-1; i++) {
-  colorOptions[i].addEventListener('click', setKasinaColorOption, false); 
+  colorOptions[i].addEventListener('click', function(event){
+    setKasinaColor(event.target.getAttribute('data-color'));
+}, false); 
   colorOptions[i].innerHTML = "<span>&nbsp;● </span>" + colorOptions[i].innerHTML;
   colorOptions[i].firstChild.setAttribute('style', 'color:'+colorOptions[i].getAttribute('data-color'));
 }
-colorOptions[i].addEventListener('input', setKasinaCustomColorOption, false); //event for custom color input
-colorOptions[i].addEventListener('click', setKasinaCustomColorOption, false);
+colorOptions[i].addEventListener('input', function(event){
+  setKasinaColor(event.target.value);
+}, false); //events for custom color input
+colorOptions[i].addEventListener('click', function(event){
+ setKasinaColor(event.target.value);
+}, false);
 
-//backgroud color options setup
-function setKasinaBackgroundColorOption(event) {
-  document.body.style.backgroundColor = event.target.getAttribute('data-color');
+//background color options setup
+function setBackgroundColor(color) {
+  document.body.style.backgroundColor = color;
+  localStorage["backgroundColor"] = color;
 }
-function setKasinaCustomBackgroundColorOption(event) { 
-  document.body.style.backgroundColor = event.target.value;
-}
+
 var backgroundColorOptions = document.querySelectorAll(".background-color-option");
 for(i=0; i < backgroundColorOptions.length-1; i++) {
-  backgroundColorOptions[i].addEventListener('click', setKasinaBackgroundColorOption, false); 
+  backgroundColorOptions[i].addEventListener('click', function(event){
+  setBackgroundColor(event.target.getAttribute('data-color'));
+}, false); 
   backgroundColorOptions[i].innerHTML = "<span>&nbsp;● </span>" + backgroundColorOptions[i].innerHTML;
   backgroundColorOptions[i].firstChild.setAttribute('style', 'background-color:'+backgroundColorOptions[i].getAttribute('data-color'));
 }
-backgroundColorOptions[i].addEventListener('input', setKasinaCustomBackgroundColorOption, false); //event for custom color input
-backgroundColorOptions[i].addEventListener('click', setKasinaCustomBackgroundColorOption, false);
+backgroundColorOptions[i].addEventListener('input', function(event){
+  setBackgroundColor(document.body.style.backgroundColor = event.target.value);
+}, false); //events for custom color input
+backgroundColorOptions[i].addEventListener('click', function(event){
+  setBackgroundColor(document.body.style.backgroundColor = event.target.value);
+}, false);
   
+//remembers last color and backgroundColor
+if(localStorage["color"]) {
+  setKasinaColor(localStorage["color"]);
+}
+if(localStorage["backgroundColor"]) {
+  setBackgroundColor(localStorage["backgroundColor"]);
+}
 
 // countdown setup
 var countdownButton = countdown.querySelector('input[type=button]'),
