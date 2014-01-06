@@ -238,6 +238,7 @@ function update_countdown() {
     if(minutes <= 0) {
       clearInterval(countdownInterval);
       alert("Time is over.");
+      countdownButton.setAttribute('value', '▸'); /*play icon*/
       return;
     }
     minutes--;
