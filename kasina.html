@@ -10,6 +10,8 @@ body {
   font-family: Verdana, Geneva, sans-serif;
   background-color:black;
   color:gray;
+  overflow:hidden;
+  margin:0;
 }
 .absolute-center {
   position:fixed;
@@ -25,14 +27,27 @@ svg {
 #kasina { 
   cursor: none; /* hides cursor when above kasina */
 }
+#options {
+  width:220px; /* somewhat arbitrary length */
+  overflow-y:auto;
+  overflow-x:hidden;
+  height: 100%;
+  position:fixed;
+  padding:0 4px;
+  z-index:-1;
+}
 #options ul {
   list-style-type: none;
+  padding:3px;
+  margin-top:2px;
+}
+#options h3 {
+  margin-bottom:2px
 }
 .color-option, .background-color-option {
-  display:inline-block;
+  display:block;
   padding: 2px;
   margin: 0 1px;
-  width: 150px; /* arbitrary length */
   border-radius: 3px;
   text-decoration: none;
 }
