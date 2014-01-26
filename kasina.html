@@ -63,6 +63,9 @@ svg {
 #countdown * {
   font-size: 2em;
 }
+#focusMode #countdown, #focusMode #options {
+  display:none;
+}
 </style>
 </head>
 
@@ -171,22 +174,18 @@ if(!svg.exitFullscreen) {
 
 //kasina setup
 kasina.addEventListener('mouseover', function(){
-  options.setAttribute('style', 'display:none');
-  countdown.setAttribute('style', 'display:none');
+  document.body.classList.add("focusMode")
 }, false);
 kasina.addEventListener('mouseout', function(){
-  options.setAttribute('style', '');
-  countdown.setAttribute('style', '');
+  document.body.classList.remove("focusMode")
 }, false);
 kasina.addEventListener('click', function(){
-  if(options.getAttribute('style') === '') {
-    options.setAttribute('style', 'display:none');
-    countdown.setAttribute('style', 'display:none');
-    //svg.requestFullscreen();
-  } else {
-    options.setAttribute('style', '');
-    countdown.setAttribute('style', '');
+  if(document.body.classList.contains("focusMode")) {
+    document.body.classList.add("focusMode")
     //svg.exitFullscreen();
+  } else {
+    document.body.classList.remove("focusMode")
+    //svg.requestFullscreen();
   }
 }, false);
 
