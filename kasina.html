@@ -174,17 +174,17 @@ if(!svg.exitFullscreen) {
 
 //kasina setup
 kasina.addEventListener('mouseover', function(){
-  document.body.classList.add("focusMode")
+  document.body.setAttribute("id", "focusMode");
 }, false);
 kasina.addEventListener('mouseout', function(){
-  document.body.classList.remove("focusMode")
+  document.body.removeAttribute("id");
 }, false);
 kasina.addEventListener('click', function(){
-  if(document.body.classList.contains("focusMode")) {
-    document.body.classList.add("focusMode")
+  if(document.body.id == "focusMode") {
+    document.body.removeAttribute("id");
     //svg.exitFullscreen();
   } else {
-    document.body.classList.remove("focusMode")
+    document.body.setAttribute("id", "focusMode");
     //svg.requestFullscreen();
   }
 }, false);
